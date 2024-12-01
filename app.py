@@ -33,9 +33,14 @@ class AplikasiPemesanan:
             if 0 <= pilihan < len(self.events):
                 jumlah = int(input("Jumlah tiket yang ingin dipesan: "))
                 event = self.events[pilihan]
-                tiket = Tiket(event, jumlah)
-                self.pemesanan.append(tiket)
-                print(f"Tiket untuk {event.nama} sebanyak {jumlah} telah dipesan.")
+                
+                if jumlah > event.stok:
+                    print(f"Stok tidak mencukupi. Tersedia hanya {event.stok} tiket.")
+                else:
+                    tiket = Tiket(event, jumlah)
+                    self.pemesanan.append(tiket)
+                    event.stok -= jumlah  # Mengurangi stok tiket
+                    print(f"Tiket untuk {event.nama} sebanyak {jumlah} telah dipesan.")
             else:
                 print("Pilihan tidak valid.")
         except ValueError:
